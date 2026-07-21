@@ -5,7 +5,7 @@ import { MediaSlot } from "@/components/ui/Bits";
 
 export const metadata: Metadata = {
   title: "Trainers",
-  description: "Meet the coaches behind Apex Athletic.",
+  description: "Meet the coaches behind QBC Boxing.",
 };
 
 const trainers = [

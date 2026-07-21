@@ -82,7 +82,7 @@ function RegisterForm() {
 export default function RegisterPage() {
   return (
     <AuthShell
-      eyebrow="Join Apex"
+      eyebrow="Join QBC"
       title="Create Account"
       footer={<>Already a member? <AuthLink href="/login">Log in</AuthLink></>}
     >

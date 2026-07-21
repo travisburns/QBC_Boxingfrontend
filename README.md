@@ -1,6 +1,6 @@
-# Apex Athletic — Frontend
+# QBC Boxing — Frontend
 
-Marketing site + member portal + Square checkout for the Apex Athletic gym.
+Marketing site + member portal + Square checkout for the QBC Boxing gym.
 Mobile-first, dark theme with a single electric-green accent.
 
 - **Framework:** Next.js 16 (App Router) + TypeScript

@@ -9,7 +9,7 @@
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "http://localhost:5080";
 
-const TOKEN_KEY = "apex.token";
+const TOKEN_KEY = "qbc.token";
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
