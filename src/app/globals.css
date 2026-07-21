@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/*
+  APEX ATHLETIC — design tokens
+  Dark, athletic, one electric-green accent. Mobile-first.
+*/
+@theme {
+  /* surfaces */
+  --color-ink: #0c0d0c; /* page background, near-black */
+  --color-ink-2: #101110; /* raised panels */
+  --color-ink-3: #161816; /* cards / inputs */
+  --color-line: rgba(255, 255, 255, 0.08); /* hairline borders */
+  --color-line-strong: rgba(255, 255, 255, 0.16);
+
+  /* text */
+  --color-cream: #e9e7de; /* display / headings, warm off-white */
+  --color-fg: #d6d7d2; /* default body text */
+  --color-muted: #8f918b; /* secondary text, labels */
+
+  /* brand accent */
+  --color-accent: #35d66e; /* electric green */
+  --color-accent-600: #24b85c; /* hover */
+  --color-accent-700: #1c9c4c; /* active */
+  --color-accent-ink: #05230f; /* text on top of accent */
+
+  /* type — bound to next/font CSS variables set in layout.tsx */
+  --font-display: var(--font-anton), "Arial Narrow", system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* layout */
+  --radius: 2px;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- Display headline utility (condensed, uppercase) --- */
+.font-display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.9;
+  font-weight: 400; /* Anton ships a single heavy weight */
+}
+
+/* Small green letter-spaced eyebrow labels above sections */
+.eyebrow {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* --- Chromatic-aberration "glitch" for hero display type --- */
+.glitch {
+  position: relative;
+  color: var(--color-cream);
+  text-shadow:
+    0.02em 0 0 rgba(255, 0, 64, 0.55),
+    -0.02em 0 0 rgba(0, 200, 255, 0.5);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glitch {
+    animation: glitch-shift 5.5s infinite steps(1);
+  }
+}
+@keyframes glitch-shift {
+  0%, 92%, 100% {
+    text-shadow:
+      0.02em 0 0 rgba(255, 0, 64, 0.5),
+      -0.02em 0 0 rgba(0, 200, 255, 0.45);
+  }
+  93% {
+    text-shadow:
+      -0.05em 0 0 rgba(255, 0, 64, 0.75),
+      0.05em 0 0 rgba(0, 200, 255, 0.7);
+  }
+  96% {
+    text-shadow:
+      0.06em 0 0 rgba(255, 0, 64, 0.7),
+      -0.04em 0 0 rgba(0, 200, 255, 0.65);
+  }
+}
+
+/* Image placeholder blocks (until real photography is dropped in) */
+.media-slot {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.02) 0 10px,
+      rgba(255, 255, 255, 0) 10px 20px
+    ),
+    var(--color-ink-3);
+  border: 1px solid var(--color-line);
+}
+
+/* Accessible, on-brand focus ring */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* Thin dark scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
