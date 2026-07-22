@@ -5,6 +5,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
+  roles: string[];
 }
 
 export interface AuthResponse {
@@ -51,4 +52,47 @@ export interface Membership {
 export interface CheckoutResult {
   status: MembershipStatus;
   membership: Membership;
+}
+
+/* ---- Admin CRM (owner-only) ---- */
+
+export interface CustomerSummary {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  joinedUtc: string;
+  membershipStatus: MembershipStatus;
+  planId: string | null;
+  planName: string | null;
+  currentPeriodEndUtc: string | null;
+}
+
+export interface CustomerList {
+  totalCustomers: number;
+  activeMembers: number;
+  customers: CustomerSummary[];
+}
+
+export interface MembershipRecord {
+  planId: string;
+  planName: string | null;
+  status: MembershipStatus;
+  cardBrand: string | null;
+  cardLast4: string | null;
+  currentPeriodEndUtc: string | null;
+  cancelAtPeriodEnd: boolean;
+  createdUtc: string;
+  updatedUtc: string;
+}
+
+export interface CustomerDetail {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  joinedUtc: string;
+  squareCustomerId: string | null;
+  summary: CustomerSummary;
+  history: MembershipRecord[];
 }

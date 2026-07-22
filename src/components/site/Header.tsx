@@ -21,7 +21,7 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -75,6 +75,17 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className={clsx(
+                "text-[13px] font-medium uppercase tracking-[0.18em] transition-colors",
+                isActive("/admin") ? "text-accent" : "text-muted hover:text-cream",
+              )}
+            >
+              Admin
+            </Link>
+          )}
           <Link
             href={isAuthenticated ? "/account" : "/login"}
             className="text-[13px] font-medium uppercase tracking-[0.18em] text-muted hover:text-cream"
@@ -139,6 +150,14 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="border-b border-line/60 py-4 text-sm font-medium uppercase tracking-[0.18em] text-accent"
+            >
+              Admin
+            </Link>
+          )}
           <Link
             href={isAuthenticated ? "/account" : "/login"}
             className="border-b border-line/60 py-4 text-sm font-medium uppercase tracking-[0.18em] text-cream"
