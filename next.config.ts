@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async rewrites() {
+    return [
+      {
+        source: "/backend/:path*",
+        destination: "http://eyesic36-001-site1.ftempurl.com/api/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
