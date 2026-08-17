@@ -7,7 +7,9 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
-    environment: "jsdom",
+    // happy-dom instead of jsdom: jsdom pulls in undici, which crashes on some
+    // Node builds (webidl.util.markAsUncloneable). happy-dom has no such dep.
+    environment: "happy-dom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
