@@ -92,8 +92,10 @@ export function Header() {
           >
             {isAuthenticated ? "My Account" : "Log In"}
           </Link>
-          <ButtonLink href="/membership" size="md">
-            Join Now
+          {/* Logged out: a free "Sign Up" is the front door. Logged in: the
+              paid "Join Now" is the upgrade path. */}
+          <ButtonLink href={isAuthenticated ? "/membership" : "/register"} size="md">
+            {isAuthenticated ? "Join Now" : "Sign Up"}
           </ButtonLink>
         </div>
 
@@ -164,8 +166,12 @@ export function Header() {
           >
             {isAuthenticated ? "My Account" : "Log In"}
           </Link>
-          <ButtonLink href="/membership" size="lg" className="mt-5 w-full">
-            Join Now
+          <ButtonLink
+            href={isAuthenticated ? "/membership" : "/register"}
+            size="lg"
+            className="mt-5 w-full"
+          >
+            {isAuthenticated ? "Join Now" : "Sign Up"}
           </ButtonLink>
         </nav>
       </div>

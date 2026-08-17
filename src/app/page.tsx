@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { Eyebrow, DisplayHeading, ArrowLink, MediaSlot } from "@/components/ui/Bits";
@@ -69,6 +70,12 @@ export default function HomePage() {
                 View Classes
               </ButtonLink>
             </div>
+            <p className="mt-4 text-sm text-muted">
+              <Link href="/register" className="text-accent hover:underline">
+                Create a free account
+              </Link>{" "}
+              — no card required. Add a membership whenever you&apos;re ready.
+            </p>
           </div>
           <MediaSlot
             label="Hero — athlete mid-lift or boxing, moody lighting"

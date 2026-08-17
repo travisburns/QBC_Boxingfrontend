@@ -27,7 +27,7 @@ const statusLabel: Record<MembershipStatus, string> = {
   past_due: "Past due",
   canceled: "Canceled",
   paused: "Paused",
-  none: "No membership",
+  none: "Free account",
 };
 
 export default function AccountPage() {
@@ -167,11 +167,17 @@ export default function AccountPage() {
           ) : (
             <div className="mt-6">
               <p className="text-muted">
-                You don&apos;t have an active membership yet. Pick a plan to get training.
+                You&apos;re on a free account — browse the schedule and book classes anytime.
+                Add a membership whenever you&apos;re ready for full access.
               </p>
-              <ButtonLink href="/membership" size="lg" className="mt-6">
-                Choose a Plan
-              </ButtonLink>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="/classes" size="lg">
+                  Browse Classes
+                </ButtonLink>
+                <ButtonLink href="/membership" variant="outline" size="lg">
+                  View Memberships
+                </ButtonLink>
+              </div>
             </div>
           )}
 
