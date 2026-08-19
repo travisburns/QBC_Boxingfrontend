@@ -6,8 +6,12 @@
  * webhook keys stay on the backend and never reach the browser.
  */
 
+// Default to same-origin ("") so production calls `/api/*` on qbcboxing.com and
+// Next.js proxies it to the backend (see `rewrites` in next.config.ts) — no
+// CORS, no mixed content, no backend SSL needed. For local dev against a local
+// backend, set NEXT_PUBLIC_API_BASE_URL=http://localhost:5080 in .env.local.
 export const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "http://localhost:5080";
+  process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "";
 
 const TOKEN_KEY = "qbc.token";
 
