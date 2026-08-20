@@ -84,6 +84,7 @@ export default function DayPassPage() {
             <span className="text-cream">{formatDayLabel(result.visitDate)}</span>. Show your name
             at the front desk when you arrive.
           </p>
+          <p className="mt-3 text-sm text-muted">A receipt has been emailed to you.</p>
           <ButtonLink href="/account" size="lg" className="mt-8">
             Go to My Account
           </ButtonLink>

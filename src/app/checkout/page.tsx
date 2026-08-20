@@ -65,6 +65,9 @@ function CheckoutInner() {
               ? "Your payment method has been updated."
               : `Welcome to the ${plan.name} membership. Your training starts now.`}
           </p>
+          {!isUpdate && (
+            <p className="mt-3 text-sm text-muted">A receipt has been emailed to you.</p>
+          )}
           <ButtonLink href="/account" size="lg" className="mt-8">
             Go to My Account
           </ButtonLink>
