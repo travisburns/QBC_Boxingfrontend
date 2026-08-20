@@ -73,12 +73,40 @@ export interface SquareCard {
   destroy(): Promise<void>;
 }
 
+/** A digital-wallet payment method (Apple Pay / Google Pay). */
+export interface SquareWallet {
+  /** Google Pay renders into a button element; Apple Pay does not use attach. */
+  attach?(selector: string | HTMLElement): Promise<void>;
+  tokenize(): Promise<TokenizeResult>;
+  destroy?(): Promise<void>;
+}
+
+/** Amount + label the wallet sheet shows the customer. */
+export interface SquarePaymentRequestOptions {
+  countryCode: string;
+  currencyCode: string;
+  total: { amount: string; label: string };
+}
+
+export interface SquarePaymentRequest {
+  // Opaque handle passed to applePay()/googlePay(); shape is internal to the SDK.
+  [key: string]: unknown;
+}
+
 export interface SquarePayments {
   card(options?: Record<string, unknown>): Promise<SquareCard>;
+  paymentRequest(options: SquarePaymentRequestOptions): SquarePaymentRequest;
+  applePay(request: SquarePaymentRequest): Promise<SquareWallet>;
+  googlePay(request: SquarePaymentRequest): Promise<SquareWallet>;
 }
 
 export interface SquareSdk {
   payments(appId: string, locationId: string): SquarePayments;
+}
+
+/** Formats minor units (cents) as the major-unit string the wallet sheet needs, e.g. 2000 -> "20.00". */
+export function toMajorAmount(cents: number): string {
+  return (cents / 100).toFixed(2);
 }
 
 declare global {
