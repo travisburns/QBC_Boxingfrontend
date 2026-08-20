@@ -7,7 +7,7 @@ import { membershipPlans } from "@/lib/plans";
 export const metadata: Metadata = {
   title: "Membership",
   description:
-    "Flexible memberships for every level of commitment — strength, boxing, and unlimited classes. No contracts, cancel anytime.",
+    "One membership, full access — gym, floor, and all classes. $120/month, no contract, cancel anytime.",
 };
 
 const faqs = [
@@ -16,8 +16,8 @@ const faqs = [
     a: "No. Every membership is month-to-month. Cancel anytime from your member portal — you keep access through the end of your paid period.",
   },
   {
-    q: "Can I switch plans later?",
-    a: "Yes. Upgrade or downgrade from your account at any time. Changes take effect on your next billing date.",
+    q: "What if I only want to come occasionally?",
+    a: "No problem — skip the membership and buy a single Drop-In, Kids Class, or Session from the Drop-In page. Pay per visit, no commitment.",
   },
   {
     q: "How does billing work?",
@@ -34,19 +34,23 @@ export default function MembershipPage() {
     <>
       <PageHero
         eyebrow="Membership"
-        title="Pick Your Standard"
-        intro="No contracts. No excuses. Every plan includes 24/7 access, open gym, and locker rooms. Choose the training that fits how you move."
+        title="One Membership. All Access."
+        intro="No contracts. No excuses. Your membership covers the gym, the floor, and every class. Just want to drop in? Grab a single visit instead."
       />
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="mx-auto max-w-md">
             {membershipPlans.map((plan) => (
               <PlanCard key={plan.id} plan={plan} />
             ))}
           </div>
           <p className="mt-8 text-center text-sm text-muted">
-            Prices in USD. Billed monthly through Square. Cancel anytime.
+            Billed monthly through Square. Cancel anytime. Not ready to commit?{" "}
+            <a href="/day-pass" className="text-accent hover:underline">
+              Buy a drop-in or class
+            </a>
+            .
           </p>
         </Container>
       </section>

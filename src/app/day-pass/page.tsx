@@ -17,6 +17,7 @@ export default function DayPassPage() {
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
 
+  const [products, setProducts] = useState<DayPassProduct[]>([]);
   const [product, setProduct] = useState<DayPassProduct | null>(null);
   const [savedCard, setSavedCard] = useState<SavedCard | null>(null);
   const [visitDate, setVisitDate] = useState<string>(() => todayISO());
@@ -34,11 +35,13 @@ export default function DayPassPage() {
   const loadData = useCallback(async () => {
     setLoadingData(true);
     try {
-      const products = await apiFetch<DayPassProduct[]>("/api/day-passes/products", {
+      const list = await apiFetch<DayPassProduct[]>("/api/day-passes/products", {
         auth: false,
       });
-      setProduct(products[0] ?? null);
+      setProducts(list);
+      setProduct(list[0] ?? null);
     } catch {
+      setProducts([]);
       setProduct(null);
     }
     try {
@@ -96,21 +99,51 @@ export default function DayPassPage() {
   return (
     <section className="py-16 sm:py-20">
       <Container className="max-w-4xl">
-        <Eyebrow>Day Pass</Eyebrow>
+        <Eyebrow>Drop In</Eyebrow>
         <DisplayHeading className="mt-4 text-[clamp(2.5rem,7vw,4rem)]">
-          Drop In For A Day
+          Just Passing Through
         </DisplayHeading>
         <p className="mt-4 max-w-xl text-muted">
-          No membership needed — reserve a single day and pay online. Tap with Apple Pay or Google
-          Pay, or use a card.
+          No membership needed — pick what you&apos;re coming in for, reserve a day, and pay online.
+          Tap with Apple Pay or Google Pay, or use a card.
         </p>
 
         {loadingData ? (
           <p className="mt-10 text-muted">Loading…</p>
         ) : !product ? (
-          <p className="mt-10 text-muted">Day passes aren&apos;t available right now.</p>
+          <p className="mt-10 text-muted">Nothing&apos;s available to book right now.</p>
         ) : (
-          <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
+          <>
+          {/* Product picker */}
+          {products.length > 1 && (
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {products.map((p) => {
+                const selected = p.id === product.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setProduct(p)}
+                    className={`border p-4 text-left transition-colors ${
+                      selected
+                        ? "border-accent bg-ink-3"
+                        : "border-line bg-ink-2 hover:border-line-strong"
+                    }`}
+                  >
+                    <span className="flex items-center justify-between">
+                      <span className="font-display text-lg text-cream">{p.name}</span>
+                      <span className="font-display text-lg text-cream">
+                        {formatPrice(p.priceCents, p.currency)}
+                      </span>
+                    </span>
+                    <span className="mt-1 block text-xs text-muted">{p.description}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_1fr]">
             {/* Summary + date */}
             <div className="order-2 border border-line bg-ink-2 p-7 lg:order-1">
               <h2 className="eyebrow text-muted">Your Visit</h2>
@@ -175,6 +208,7 @@ export default function DayPassPage() {
               </p>
             </div>
           </div>
+          </>
         )}
       </Container>
     </section>

@@ -161,7 +161,7 @@ export default function HomePage() {
               No contracts. Cancel anytime. Every plan includes 24/7 access and open gym.
             </p>
           </div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          <div className="mx-auto mt-12 max-w-md">
             {membershipPlans.map((plan) => (
               <PlanCard key={plan.id} plan={plan} />
             ))}
@@ -177,8 +177,7 @@ export default function HomePage() {
             Ready to Raise Your Standard?
           </DisplayHeading>
           <p className="mx-auto mt-6 max-w-xl text-muted">
-            Flexible memberships for every level of commitment — strength, boxing, and unlimited
-            classes included.
+            One membership, full access — or just drop in for a single visit. No contracts either way.
           </p>
           <div className="mt-9 flex justify-center">
             <ButtonLink href="/membership" size="lg">
