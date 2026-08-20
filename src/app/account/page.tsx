@@ -8,9 +8,10 @@ import { apiFetch } from "@/lib/api";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow, DisplayHeading } from "@/components/ui/Bits";
 import { Button, ButtonLink } from "@/components/ui/Button";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatPrice } from "@/lib/format";
+import { formatDayLabel } from "@/lib/dayPasses";
 import { getPlan } from "@/lib/plans";
-import type { Membership, MembershipStatus } from "@/lib/types";
+import type { DayPass, Membership, MembershipStatus } from "@/lib/types";
 
 const statusStyles: Record<MembershipStatus, string> = {
   active: "text-accent",
@@ -36,6 +37,7 @@ export default function AccountPage() {
 
   const [membership, setMembership] = useState<Membership | null>(null);
   const [loadingMembership, setLoadingMembership] = useState(true);
+  const [dayPasses, setDayPasses] = useState<DayPass[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -59,11 +61,24 @@ export default function AccountPage() {
     }
   }, []);
 
+  const loadDayPasses = useCallback(async () => {
+    try {
+      const passes = await apiFetch<DayPass[]>("/api/account/day-passes");
+      setDayPasses(passes);
+    } catch {
+      setDayPasses([]);
+    }
+  }, []);
+
+  const loadAccount = useCallback(async () => {
+    await Promise.all([loadMembership(), loadDayPasses()]);
+  }, [loadMembership, loadDayPasses]);
+
   useEffect(() => {
-    // Fetch membership once authenticated (external-system sync).
+    // Fetch membership + day passes once authenticated (external-system sync).
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (isAuthenticated) void loadMembership();
-  }, [isAuthenticated, loadMembership]);
+    if (isAuthenticated) void loadAccount();
+  }, [isAuthenticated, loadAccount]);
 
   async function cancelMembership() {
     if (!confirm("Cancel your membership? You'll keep access until the end of the current period.")) {
@@ -182,6 +197,42 @@ export default function AccountPage() {
           )}
 
           {error && <p className="mt-4 text-sm text-[#ff5a7a]">{error}</p>}
+        </div>
+
+        {/* Day passes */}
+        <div className="mt-6 border border-line bg-ink-2 p-7">
+          <div className="flex items-center justify-between">
+            <h2 className="eyebrow text-muted">Day Passes</h2>
+            <ButtonLink href="/day-pass" variant="outline" size="md">
+              Buy a Day Pass
+            </ButtonLink>
+          </div>
+          {dayPasses.length === 0 ? (
+            <p className="mt-6 text-muted">
+              No day passes yet. Grab a single-day drop-in whenever you want to train without a
+              membership.
+            </p>
+          ) : (
+            <ul className="mt-6 divide-y divide-line">
+              {dayPasses.map((p) => (
+                <li key={p.id} className="flex items-center justify-between py-4">
+                  <div>
+                    <p className="text-fg">{formatDayLabel(p.visitDate)}</p>
+                    <p className="text-xs text-muted">
+                      {p.productName} · {formatPrice(p.priceCents, p.currency)}
+                    </p>
+                  </div>
+                  <span
+                    className={`text-xs font-semibold uppercase tracking-[0.16em] ${
+                      p.status === "redeemed" ? "text-muted" : "text-accent"
+                    }`}
+                  >
+                    {p.status === "redeemed" ? "Used" : "Booked"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Account details */}

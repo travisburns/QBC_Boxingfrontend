@@ -54,6 +54,42 @@ export interface CheckoutResult {
   membership: Membership;
 }
 
+/* ---- Day passes (one-time) ---- */
+
+export interface DayPassProduct {
+  id: string;
+  name: string;
+  priceCents: number;
+  currency: string;
+  description: string;
+  /** How many days ahead a pass may be reserved. */
+  maxDaysAhead: number;
+}
+
+export type DayPassStatus = "paid" | "redeemed" | "refunded";
+
+export interface DayPass {
+  id: number;
+  productId: string;
+  productName: string;
+  /** ISO date "yyyy-MM-dd" the pass is reserved for. */
+  visitDate: string;
+  priceCents: number;
+  currency: string;
+  status: DayPassStatus;
+  cardBrand: string | null;
+  cardLast4: string | null;
+  createdAtUtc: string;
+  redeemedAtUtc: string | null;
+}
+
+/** The card a member has on file, for one-tap repeat purchases. */
+export interface SavedCard {
+  hasCard: boolean;
+  cardBrand: string | null;
+  cardLast4: string | null;
+}
+
 /* ---- Admin CRM (owner-only) ---- */
 
 export interface CustomerSummary {
@@ -95,4 +131,25 @@ export interface CustomerDetail {
   squareCustomerId: string | null;
   summary: CustomerSummary;
   history: MembershipRecord[];
+}
+
+/* ---- Admin: day-pass front-desk check-in ---- */
+
+export interface DayPassCheckIn {
+  id: number;
+  userId: string;
+  customerName: string;
+  email: string;
+  productName: string;
+  visitDate: string;
+  status: DayPassStatus;
+  createdUtc: string;
+  redeemedUtc: string | null;
+}
+
+export interface DayPassCheckInList {
+  date: string;
+  total: number;
+  redeemed: number;
+  passes: DayPassCheckIn[];
 }

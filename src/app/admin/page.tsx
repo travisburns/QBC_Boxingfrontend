@@ -75,7 +75,15 @@ export default function AdminCustomersPage() {
     <section className="py-16 sm:py-20">
       <Container className="max-w-5xl">
         <Eyebrow>Owner CRM</Eyebrow>
-        <DisplayHeading className="mt-4 text-[clamp(2.5rem,7vw,4rem)]">Customers</DisplayHeading>
+        <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+          <DisplayHeading className="text-[clamp(2.5rem,7vw,4rem)]">Customers</DisplayHeading>
+          <Link
+            href="/admin/day-passes"
+            className="text-[13px] font-medium uppercase tracking-[0.18em] text-muted hover:text-accent"
+          >
+            Day Pass Check-In →
+          </Link>
+        </div>
 
         {/* Stats */}
         <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-md">

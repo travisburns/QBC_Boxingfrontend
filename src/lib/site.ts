@@ -17,6 +17,7 @@ export const primaryNav = [
   { label: "Home", href: "/" },
   { label: "Classes", href: "/classes" },
   { label: "Membership", href: "/membership" },
+  { label: "Day Pass", href: "/day-pass" },
   { label: "Trainers", href: "/trainers" },
   { label: "Contact", href: "/contact" },
 ] as const;
